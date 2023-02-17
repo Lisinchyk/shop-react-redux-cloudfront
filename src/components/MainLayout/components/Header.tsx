@@ -33,7 +33,7 @@ export default function Header() {
             underline="none"
             to="/"
           >
-            Digital Library - Books v1
+            Digital Library - Books
           </Link>
         </Typography>
 

@@ -1,4 +1,4 @@
-service: my-store-app
+service: lis-store-service-react
 
 frameworkVersion: "3"
 
@@ -7,14 +7,15 @@ provider:
   runtime: nodejs14.x
   region: us-east-1
   # setup profile for AWS CLI.
-  # profile: node-aws
+  profile: anatolii
 
 plugins:
   - serverless-finch
-  # 'serverless-single-page-app-plugin' is a custom plugin that located .serverless_plugins folder.
+  # 'serverless-single-page-app-plugin' is a custom plugin that located serverless_plugins folder.
   # Existing plugin (https://www.npmjs.com/package/serverless-single-page-app-plugin) doesn't have invalidate cache feature that often used during CI/CD events.
   # How to build your own plugins: https://www.serverless.com/framework/docs/providers/aws/guide/plugins#service-local-plugin
-  - serverless-single-page-app-plugin
+#  - serverless-single-page-app-plugin
+  - serverless-app-plugin
   - serverless-s3-cleaner
 
 custom:
@@ -22,7 +23,6 @@ custom:
     bucketName: lis-store-app-react
     distributionFolder: dist
   s3BucketName: ${self:custom.client.bucketName}
-
   ## Serverless-single-page-app-plugin configuration:
   s3LocalPath: ${self:custom.client.distributionFolder}/
   serverless-s3-cleaner:
