@@ -16,6 +16,10 @@ This is frontend starter project for nodejs-aws mentoring program. It uses the f
 - [Prettier](https://prettier.io/) as a code formatting tool
 - [TypeScript](https://www.typescriptlang.org/) as a type checking tool
 
+Task 2 Links
+- [S3 Bucket link](http://lis-store-app-react.s3-website-us-east-1.amazonaws.com/) as 403 Forbidden
+- [CloudFront link](https://d1areo6ly74sdt.cloudfront.net/) as a website
+
 ## Available Scripts
 
 ### `start`
