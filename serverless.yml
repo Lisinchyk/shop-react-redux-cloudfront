@@ -5,9 +5,9 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs14.x
+  profile: anatolii-aws
   region: us-east-1
   # setup profile for AWS CLI.
-  profile: anatolii
 
 plugins:
   - serverless-finch
