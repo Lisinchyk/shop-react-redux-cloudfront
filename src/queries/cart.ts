@@ -40,7 +40,7 @@ export function useUpsertCart() {
   return useMutation((values: CartItem) => {
     console.log("values", values);
     return axios.put<CartItem[]>(
-      `${API_PATHS.cart}/profile/cart/${userIdMock}`,
+      `${API_PATHS.cart}/api/profile/cart/${userIdMock}`,
       values,
       {
         headers: {

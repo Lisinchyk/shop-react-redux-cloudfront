@@ -24,8 +24,6 @@ export default function AddProductToCart({ product }: AddProductToCartProps) {
     (i: any) => i.product_id === product.id
   );
 
-  console.log("data", data);
-
   const addProduct = async () => {
     await upsertCart(
       { product, count: cartItem ? cartItem.count + 1 : 1 },
@@ -37,19 +35,17 @@ export default function AddProductToCart({ product }: AddProductToCartProps) {
     if (cartItem) {
       const itemAmount = cartItem.count - 1;
       if (!itemAmount) {
-        return await deleteCartItem(cartItem.product_id, {
+        return deleteCartItem(cartItem.product_id, {
           onSuccess: invalidateCart,
         });
       }
 
       await upsertCart(
-        { ...cartItem, count: cartItem.count - 1 },
+        { product, count: cartItem.count - 1 },
         { onSuccess: invalidateCart }
       );
     }
   };
-
-  console.log("cartItem", cartItem);
 
   return cartItem ? (
     <>

@@ -11,13 +11,12 @@ export const useCombinedProductCart = () => {
     if (product) {
       cart.push({
         count: item.count,
+        cartId: carts.cart.id,
         product,
       });
     }
     return cart;
   }, []);
-
-  console.log("combinedData", combinedData);
 
   return { combinedData, isLoading };
 };
