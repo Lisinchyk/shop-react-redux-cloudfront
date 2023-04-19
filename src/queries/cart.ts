@@ -9,7 +9,7 @@ export function useCart() {
   return useQuery("cart", async () => {
     try {
       return await axios
-        .get(`${API_PATHS.cart}/api/profile/cart/${userIdMock}`, {
+        .get(`${API_PATHS.cart}/cart/${userIdMock}`, {
           headers: {
             Authorization: `Basic ${localStorage.getItem(
               "authorization_token"
@@ -40,7 +40,7 @@ export function useUpsertCart() {
   return useMutation((values: CartItem) => {
     console.log("values", values);
     return axios.put<CartItem[]>(
-      `${API_PATHS.cart}/api/profile/cart/${userIdMock}`,
+      `${API_PATHS.cart}/cart/${userIdMock}`,
       values,
       {
         headers: {
@@ -55,7 +55,7 @@ export function useDeleteCartItem() {
   return useMutation(async (productId: string) => {
     try {
       return await axios
-        .delete(`${API_PATHS.cart}/api/profile/cart/${productId}`)
+        .delete(`${API_PATHS.cart}/cart/${productId}`)
         .then((res) => res.data);
     } catch (error) {
       console.log(error);
