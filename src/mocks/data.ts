@@ -3,6 +3,8 @@ import { CartItem } from "~/models/CartItem";
 import { Order } from "~/models/Order";
 import { AvailableProduct, Product } from "~/models/Product";
 
+export const userIdMock = "e081beae-bf63-4360-a115-6c88b4d21376";
+
 export const products: Product[] = [
   {
     description: "Short Product Description1",

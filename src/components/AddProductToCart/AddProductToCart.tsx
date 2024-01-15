@@ -4,7 +4,12 @@ import CartIcon from "@mui/icons-material/ShoppingCart";
 import Add from "@mui/icons-material/Add";
 import Remove from "@mui/icons-material/Remove";
 import IconButton from "@mui/material/IconButton";
-import { useCart, useInvalidateCart, useUpsertCart } from "~/queries/cart";
+import {
+  useCart,
+  useDeleteCartItem,
+  useInvalidateCart,
+  useUpsertCart,
+} from "~/queries/cart";
 
 type AddProductToCartProps = {
   product: Product;
@@ -13,20 +18,30 @@ type AddProductToCartProps = {
 export default function AddProductToCart({ product }: AddProductToCartProps) {
   const { data = [], isFetching } = useCart();
   const { mutate: upsertCart } = useUpsertCart();
+  const { mutate: deleteCartItem } = useDeleteCartItem();
   const invalidateCart = useInvalidateCart();
-  const cartItem = data.find((i) => i.product.id === product.id);
+  const cartItem = data?.cart?.items?.find(
+    (i: any) => i.product_id === product.id
+  );
 
-  const addProduct = () => {
-    upsertCart(
+  const addProduct = async () => {
+    await upsertCart(
       { product, count: cartItem ? cartItem.count + 1 : 1 },
       { onSuccess: invalidateCart }
     );
   };
 
-  const removeProduct = () => {
+  const removeProduct = async () => {
     if (cartItem) {
-      upsertCart(
-        { ...cartItem, count: cartItem.count - 1 },
+      const itemAmount = cartItem.count - 1;
+      if (!itemAmount) {
+        return deleteCartItem(cartItem.product_id, {
+          onSuccess: invalidateCart,
+        });
+      }
+
+      await upsertCart(
+        { product, count: cartItem.count - 1 },
         { onSuccess: invalidateCart }
       );
     }

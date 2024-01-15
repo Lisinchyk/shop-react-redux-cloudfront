@@ -35,7 +35,9 @@ export default function PageOrder() {
     {
       queryKey: ["order", { id }],
       queryFn: async () => {
-        const res = await axios.get<Order>(`${API_PATHS.order}/order/${id}`);
+        const res = await axios.get<Order>(
+          `${API_PATHS.order}/orders/order/${id}`
+        );
         return res.data;
       },
     },
@@ -43,18 +45,23 @@ export default function PageOrder() {
       queryKey: "products",
       queryFn: async () => {
         const res = await axios.get<AvailableProduct[]>(
-          `${API_PATHS.bff}/product/available`
+          `${API_PATHS.bff}/products`
         );
         return res.data;
       },
     },
   ]);
   const [
-    { data: order, isLoading: isOrderLoading },
+    { data: orderData, isLoading: isOrderLoading },
     { data: products, isLoading: isProductsLoading },
   ] = results;
   const { mutateAsync: updateOrderStatus } = useUpdateOrderStatus();
   const invalidateOrder = useInvalidateOrder();
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const order = orderData?.data;
+
   const cartItems: CartItem[] = React.useMemo(() => {
     if (order && products) {
       return order.items.map((item: OrderItem) => {
@@ -155,17 +162,23 @@ export default function PageOrder() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {statusHistory.map((statusHistoryItem) => (
-              <TableRow key={order.id}>
-                <TableCell component="th" scope="row">
-                  {statusHistoryItem.status.toUpperCase()}
-                </TableCell>
-                <TableCell align="right">
-                  {new Date(statusHistoryItem.timestamp).toString()}
-                </TableCell>
-                <TableCell align="right">{statusHistoryItem.comment}</TableCell>
-              </TableRow>
-            ))}
+            {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              statusHistory.map((statusHistoryItem) => (
+                <TableRow key={order.id}>
+                  <TableCell component="th" scope="row">
+                    {statusHistoryItem.status.toUpperCase()}
+                  </TableCell>
+                  <TableCell align="right">
+                    {new Date(statusHistoryItem.timestamp).toString()}
+                  </TableCell>
+                  <TableCell align="right">
+                    {statusHistoryItem.comment}
+                  </TableCell>
+                </TableRow>
+              ))
+            }
           </TableBody>
         </Table>
       </TableContainer>
